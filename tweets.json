@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "tweet_id": "9db4a936-374d-4226-a62e-f8d88c21f7e0",
+        "content": "Hola mundo",
+        "created_at": "2022-04-23 02:53:48.737346",
+        "by": {
+            "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+            "email": "Brahian@example.com",
+            "password": "stringstasdf",
+            "first_name": "Brahian",
+            "last_name": "Arias",
+            "birth_date": "2022-04-23"
+        }
+    }
+]

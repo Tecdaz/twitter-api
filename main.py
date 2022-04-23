@@ -1,8 +1,9 @@
 # Python
 import json
+import random
 from datetime import date, datetime
 from typing import Optional, List
-from uuid import UUID
+from uuid import UUID, uuid4
 
 # FastAPI
 from fastapi import FastAPI, status, Body
@@ -86,7 +87,7 @@ def signup(user: UserRegister = Body(...)):
     with open("users.json", "r+", encoding="utf-8") as f:
         results = json.load(f)
         user_dict = user.dict()
-        user_dict["user_id"] = str(user_dict["user_id"])
+        user_dict["user_id"] = str(uuid4())
         user_dict["birth_date"] = str(user_dict["birth_date"])
         results.append(user_dict)
         f.seek(0)
@@ -190,8 +191,37 @@ def home():
     summary="Post a tweet",
     tags=["Tweets"]
 )
-def post():
-    pass
+def post(tweet: Tweet = Body(...), ):
+    """
+    Post tweet
+
+    This function post a tweet
+
+    Params:
+    - Request Body parameter
+        - tweet: Tweet
+
+    Return a JSON with a basic tweet information:
+    - tweet_id: UUID
+    - content: str
+    - created_at: datetime
+    - by: User
+    """
+    with open("tweets.json", "r+", encoding="utf-8") as f:
+        results = json.load(f)
+        tweet_dict = tweet.dict()
+        tweet_dict["tweet_id"] = str(uuid4())
+        tweet_dict["created_at"] = str(datetime.now())
+
+        with open("users.json", "r", encoding="utf-8") as u:
+            list_users = json.load(u)
+            user: User = random.choice(list_users)
+
+        tweet_dict["by"] = user
+        results.append(tweet_dict)
+        f.seek(0)
+        json.dump(results, f, default=str, indent=4)
+        return tweet_dict
 
 
 ### Show a tweet
