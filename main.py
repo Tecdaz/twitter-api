@@ -180,7 +180,14 @@ def update_user():
     tags=["Tweets"]
 )
 def home():
-    return {"Twitter API": "Hello world"}
+    """
+    Home
+
+    Returns all tweets in the app
+    """
+    with open("tweets.json", "r", encoding="utf-8") as f:
+        results = json.load(f)
+    return results
 
 
 ### Post twett
@@ -221,7 +228,7 @@ def post(tweet: Tweet = Body(...), ):
         results.append(tweet_dict)
         f.seek(0)
         json.dump(results, f, default=str, indent=4)
-        return tweet_dict
+    return tweet_dict
 
 
 ### Show a tweet
